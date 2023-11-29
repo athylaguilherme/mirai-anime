@@ -1,8 +1,26 @@
+"use client"
 import Image from 'next/image'
 import Card from "@/components/cards";
 import Titulo from "@/components/titulo";
+import { useState } from 'react';
 
 export default function Home() {
+  
+  const[filmes, setFilmes] = useState([])
+  
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZTkyMjY2NzQ4MWFiMjA3ZDY0MjQ1MGIwZWZiNDYxZSIsInN1YiI6IjVlYTA5ZTZiYmU0YjM2MDAxYzU5NWExNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Vhu0pPCiIwmtrpyOHdBlQid8HJJllaHthn1MERS_ANg'
+    }
+  };
+  
+  fetch('https://api.themoviedb.org/3/trending/movie/week?language=pt-BR', options)
+    .then(response => response.json())
+    .then(response => setFilmes(response.results))
+    .catch(err => console.error(err));
+  
   return (
     <main className="flex min-h-screen flex-col">
       
@@ -19,33 +37,23 @@ export default function Home() {
     {/* Animes em Alta */}
     <Titulo>Animes em Alta </Titulo>
     <section className="flex flex-wrap gap-4 p-4">
-    <Card titulo = {"One Piece"} nota={10.0} imgs ={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/oUMaaYH3Dr7B79XlrMsB8W1nxki.jpg"}/>
-    <Card titulo = {"Naruto"} nota = {9.8} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/nRJmByfK9XdtOY73VArcN8KpKVs.jpg"}/>
-    <Card titulo={"Super Onze"} nota={7.0} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/mxv6vMB8qSeD8yHXmnwikYQR3Ot.jpg"} />
-    <Card titulo={"Captain Tsubasa"} nota={8.7} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/5ebcN4fDDk9QdGTvVrD7TIa18za.jpg"} />
-    <Card titulo={"Pokemon"} nota={9.5} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/5V4RQvyYlz8HY9piw1ctsXiUKdc.jpg"} />
-    
+    { filmes && filmes.map(filme => <Card filme={filme}  />).slice(0,5)}
     </section>
- 
-    <Titulo>Novidades</Titulo>
+    
+    {/* Novidades */}
+    <Titulo>Novidades da Temporada</Titulo>
     <section className="flex flex-wrap gap-4 p-4">
-    <Card titulo = {"One Piece"} nota={10.0} imgs ={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/oUMaaYH3Dr7B79XlrMsB8W1nxki.jpg"}/>
-    <Card titulo = {"Naruto"} nota = {9.8} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/nRJmByfK9XdtOY73VArcN8KpKVs.jpg"}/>
-    <Card titulo={"Super Onze"} nota={7.0} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/mxv6vMB8qSeD8yHXmnwikYQR3Ot.jpg"} />
-    <Card titulo={"Captain Tsubasa"} nota={8.7} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/5ebcN4fDDk9QdGTvVrD7TIa18za.jpg"} />
-    <Card titulo={"Pokemon"} nota={9.5} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/5V4RQvyYlz8HY9piw1ctsXiUKdc.jpg"} />
+    { filmes && filmes.map(filme => <Card filme={filme}  />).slice(6,11)}
     </section>
 
+    {/* Lançamentos */}
     <Titulo>Lançamentos</Titulo>
     <section className="flex flex-wrap gap-4 p-4">
-    <Card titulo = {"One Piece"} nota={10.0} imgs ={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/oUMaaYH3Dr7B79XlrMsB8W1nxki.jpg"}/>
-    <Card titulo = {"Naruto"} nota = {9.8} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/nRJmByfK9XdtOY73VArcN8KpKVs.jpg"}/>
-    <Card titulo={"Super Onze"} nota={7.0} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/mxv6vMB8qSeD8yHXmnwikYQR3Ot.jpg"} />
-    <Card titulo={"Captain Tsubasa"} nota={8.7} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/5ebcN4fDDk9QdGTvVrD7TIa18za.jpg"} />
-    <Card titulo={"Pokemon"} nota={9.5} imgs={"https://www.themoviedb.org/t/p/w300_and_h450_bestv2/5V4RQvyYlz8HY9piw1ctsXiUKdc.jpg"} />
+    { filmes && filmes.map(filme => <Card filme={filme}  />).slice(12,17)}
     </section>
 
 
     </main>
   )
 }
+
